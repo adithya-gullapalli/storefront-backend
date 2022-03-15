@@ -24,9 +24,7 @@ describe("First Test", () => {
         process.env.ENV = "test";
         require("../server.js");
         const body = { id: test_user_start.id, password: test_user_start.password };
-        console.log("body:", body);
         const res = await axios_1.default.post("/authorize", body, AXIOS_OPTIONS);
-        console.log("res:", res);
         jwt_token = res.data;
         console.log(`jwt_token: ${jwt_token}`);
         headers = { Authorization: `${jwt_token}` };

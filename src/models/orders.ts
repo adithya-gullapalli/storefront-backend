@@ -1,12 +1,12 @@
 import client from "../database"
 
-export type order = {
+export type Order = {
   id: number | null
   user_id: number
   status: string
 }
 
-export type order_product = {
+export type Order_product = {
   id: number | null
   order_id: number
   product_id: string
@@ -14,7 +14,7 @@ export type order_product = {
 }
 
 export class OrderStore {
-  async index(): Promise<order[]> {
+  async index(): Promise<Order[]> {
     try {
       const connect = await client.connect()
       const sql = "SELECT * FROM Orders"
@@ -26,7 +26,7 @@ export class OrderStore {
     }
   }
 
-  async show(id: number): Promise<order> {
+  async show(id: number): Promise<Order> {
     try {
       const connect = await client.connect()
       const sql = "SELECT * FROM Orders WHERE id=($1)"
@@ -39,7 +39,7 @@ export class OrderStore {
     }
   }
 
-  async showCurrentByUser(user_id: number): Promise<order> {
+  async showCurrentByUser(user_id: number): Promise<Order> {
     try {
       const connect = await client.connect()
       const sql = "SELECT * FROM Orders WHERE user_id=($1) ORDER BY id DESC LIMIT 1"
@@ -52,7 +52,7 @@ export class OrderStore {
     }
   }
 
-  async create(order: order): Promise<order> {
+  async create(order: Order): Promise<Order> {
     try {
       const connect = await client.connect()
       const sql = "INSERT INTO Orders (user_id, status) VALUES($1, $2) RETURNING *"
@@ -66,7 +66,7 @@ export class OrderStore {
     }
   }
 
-  async addProduct(product_id: number, order_id: number, quantity: number): Promise<order_product> {
+  async addProduct(product_id: number, order_id: number, quantity: number): Promise<Order_product> {
     try {
       const connect = await client.connect()
       const sql = "INSERT INTO Order_products (product_id,order_id,quantity) VALUES($1, $2, $3) RETURNING *"

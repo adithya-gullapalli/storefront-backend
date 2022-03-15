@@ -1,5 +1,5 @@
 import express from "express"
-import { product, ProductStore } from "../models/products"
+import { Product, ProductStore } from "../models/products"
 import authenticate_middleware from "../middleware/authenticate"
 import "dotenv/config"
 
@@ -7,7 +7,7 @@ const store = new ProductStore()
 
 const index = async (_req: express.Request, res: express.Response): Promise<void> => {
   try {
-    const products: product[] = await store.index()
+    const products: Product[] = await store.index()
     res.json(products)
   } catch (err) {
     res.status(400)
@@ -30,7 +30,7 @@ const create = async (req: express.Request, res: express.Response): Promise<void
   try {
     const name = req.body.name as string
     const price = req.body.price as number
-    const product: product = {
+    const product: Product = {
       id: null,
       name: name,
       price: price

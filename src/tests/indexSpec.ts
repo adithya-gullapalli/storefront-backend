@@ -1,7 +1,7 @@
 import axios from "axios"
-import { order, OrderStore } from "../models/orders"
-import { product, ProductStore } from "../models/products"
-import { user, UserStore } from "../models/users"
+import { Order, OrderStore } from "../models/orders"
+import { Product, ProductStore } from "../models/products"
+import { User, UserStore } from "../models/users"
 const AXIOS_OPTIONS = {
   baseURL: "http://localhost:3000"
 }
@@ -21,9 +21,7 @@ describe("First Test", () => {
     process.env.ENV = "test"
     require("../server.js")
     const body = { id: test_user_start.id, password: test_user_start.password }
-    console.log("body:", body)
     const res = await axios.post("/authorize", body, AXIOS_OPTIONS)
-    console.log("res:", res)
     jwt_token = res.data
     console.log(`jwt_token: ${jwt_token}`)
     headers = { Authorization: `${jwt_token}` }
@@ -36,7 +34,7 @@ describe("First Test", () => {
     })
 
     describe("Authorization & User", () => {
-      const test_new_user: user = {
+      const test_new_user: User = {
         id: null,
         first_name: "Patrick",
         last_name: "Jane",
@@ -51,7 +49,7 @@ describe("First Test", () => {
         expect(res.status).toBe(401)
       })
 
-      let created_user: user
+      let created_user: User
       it("Created User /users (POST)", async () => {
         const axios_config = { baseURL: AXIOS_OPTIONS.baseURL, headers: headers }
         const res = await axios.post("/users", test_new_user, axios_config)
@@ -69,7 +67,7 @@ describe("First Test", () => {
       it("Showing all Users /users (GET)", async () => {
         const axios_config = { baseURL: AXIOS_OPTIONS.baseURL, headers: headers }
         const res = await axios.get("/users", axios_config)
-        const users = res.data as user[]
+        const users = res.data as User[]
 
         expect(users.length > 0).toBeTrue()
       })
@@ -82,9 +80,9 @@ describe("First Test", () => {
       })
     })
 
-    let created_product: product
+    let created_product: Product
     describe("Product", () => {
-      const product_test: product = {
+      const product_test: Product = {
         id: null,
         name: "Micheal",
         price: 20.2
@@ -105,14 +103,14 @@ describe("First Test", () => {
       it("Showing all Products /products (GET)", async () => {
         const axios_config = { baseURL: AXIOS_OPTIONS.baseURL, headers: headers }
         const res = await axios.get("/products", axios_config)
-        const products = res.data as product[]
+        const products = res.data as Product[]
         expect(products.length > 0).toBeTrue()
       })
     })
 
-    let created_order: order
+    let created_order: Order
     describe("Order", () => {
-      const order_test: order = {
+      const order_test: Order = {
         id: null,
         user_id: 1,
         status: "active"
@@ -139,7 +137,7 @@ describe("First Test", () => {
       it("Showing all Order /orders (GET)", async () => {
         const axios_config = { baseURL: AXIOS_OPTIONS.baseURL, headers: headers }
         const res = await axios.get("/orders", axios_config)
-        const orders = res.data as order[]
+        const orders = res.data as Order[]
         expect(orders.length > 0).toBeTrue()
       })
 
@@ -158,14 +156,14 @@ describe("First Test", () => {
   describe("Database Checking", () => {
     describe("User", () => {
       const user_store = new UserStore()
-      const test_new_user: user = {
+      const test_new_user: User = {
         id: null,
         first_name: "Patrick",
         last_name: "Jane",
         password: "strongPassword"
       }
 
-      let created_user: user
+      let created_user: User
       it("Created User", async () => {
         created_user = await user_store.create(test_new_user)
         expect(created_user.first_name).toBe(test_new_user.first_name)
@@ -178,15 +176,15 @@ describe("First Test", () => {
 
       it("Index Users", async () => {
         const res = await user_store.index()
-        const users = res as user[]
+        const users = res as User[]
         expect(users.length > 0).toBeTrue()
       })
     })
 
-    let created_product: product
+    let created_product: Product
     describe("Product", () => {
       const product_store = new ProductStore()
-      const product_test: product = {
+      const product_test: Product = {
         id: null,
         name: "Micheal",
         price: 20.2
@@ -207,10 +205,10 @@ describe("First Test", () => {
       })
     })
 
-    let created_order: order
+    let created_order: Order
     describe("Order", () => {
       const orderStore = new OrderStore()
-      const order_test: order = {
+      const order_test: Order = {
         id: null,
         user_id: 1,
         status: "active"

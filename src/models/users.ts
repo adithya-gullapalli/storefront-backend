@@ -1,6 +1,6 @@
 import client from "../database"
 
-export type user = {
+export type User = {
   id: number | null
   first_name: string
   last_name: string
@@ -8,7 +8,7 @@ export type user = {
 }
 
 export class UserStore {
-  async index(): Promise<user[]> {
+  async index(): Promise<User[]> {
     try {
       const connect = await client.connect()
       const sql = "SELECT * FROM Users"
@@ -20,12 +20,12 @@ export class UserStore {
     }
   }
 
-  async show(id: number): Promise<user> {
+  async show(id: number): Promise<User> {
     try {
       const connect = await client.connect()
       const sql = "SELECT * FROM Users WHERE id=($1)"
       const res = await connect.query(sql, [id])
-      const result = res.rows[0] as user
+      const result = res.rows[0] as User
       connect.release()
       return result
     } catch (err) {
@@ -33,7 +33,7 @@ export class UserStore {
     }
   }
 
-  async create(current_user: user): Promise<user> {
+  async create(current_user: User): Promise<User> {
     try {
       const connect = await client.connect()
       const sql = "INSERT INTO Users (first_name,last_name,password) VALUES($1, $2, $3) RETURNING *"

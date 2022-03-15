@@ -1,13 +1,13 @@
 import client from "../database"
 
-export type product = {
+export type Product = {
   id: number | null
   name: string
   price: number
 }
 
 export class ProductStore {
-  async index(): Promise<product[]> {
+  async index(): Promise<Product[]> {
     try {
       const connect = await client.connect()
       const sql = "SELECT * FROM Products"
@@ -19,7 +19,7 @@ export class ProductStore {
     }
   }
 
-  async show(id: number): Promise<product> {
+  async show(id: number): Promise<Product> {
     try {
       const connect = await client.connect()
       const sql = "SELECT * FROM Products WHERE id=($1)"
@@ -32,7 +32,7 @@ export class ProductStore {
     }
   }
 
-  async create(product: product): Promise<product> {
+  async create(product: Product): Promise<Product> {
     try {
       const connect = await client.connect()
       const sql = "INSERT INTO Products (name,price) VALUES($1, $2) RETURNING *"

@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import { user } from "../models/users"
+import { User } from "../models/users"
 
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS as string)
 const PEPPER = process.env.PEPPER as string
@@ -23,7 +23,7 @@ function verify_jwt(token: string) {
   jwt.verify(token, process.env.TOKEN_SECRET as string)
 }
 
-function get_jwt(user: user): string {
+function get_jwt(user: User): string {
   return jwt.sign({ user: user }, process.env.TOKEN_SECRET as string)
 }
 

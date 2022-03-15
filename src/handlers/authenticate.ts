@@ -28,7 +28,6 @@ const user_authorization = async (req: express.Request, res: express.Response) =
 const authenticate_router = (app: express.Application) => {
   app.use(express.json())
   app.post("/authorize", user_authorization)
-  console.log(user_authorization)
 }
 
 export default authenticate_router

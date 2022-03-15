@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express"
 import { UserStore } from "../models/users"
 import authenticate_middleware from "../middleware/authenticate"
-import { order, OrderStore } from "../models/orders"
+import { Order, OrderStore } from "../models/orders"
 import "dotenv/config"
 
 const store = new OrderStore()
@@ -9,7 +9,7 @@ const user_store = new UserStore()
 
 const index = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const result: order[] = await store.index()
+    const result: Order[] = await store.index()
     res.json(result)
   } catch (err) {
     res.status(400)
@@ -34,7 +34,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
     const status = req.body.status as string
     const user = await user_store.show(user_id)
     if (user) {
-      const order: order = {
+      const order: Order = {
         id: null,
         user_id: user_id,
         status: status

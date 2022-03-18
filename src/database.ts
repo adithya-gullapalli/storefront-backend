@@ -2,11 +2,11 @@ import { Pool } from "pg"
 
 import "dotenv/config"
 
-const { POSTGRES_HOST, POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB_TEST, NODE_ENV } = process.env
+const { POSTGRES_HOST, POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB_TEST, ENV } = process.env
 
 let client
 
-if (NODE_ENV == "test") {
+if (ENV == "test") {
   console.log(POSTGRES_DB)
   client = new Pool({
     host: POSTGRES_HOST,
@@ -14,7 +14,7 @@ if (NODE_ENV == "test") {
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD
   })
-} else if (NODE_ENV == "dev") {
+} else if (ENV == "dev") {
   console.log("connecting to dev db")
   client = new Pool({
     host: POSTGRES_HOST,

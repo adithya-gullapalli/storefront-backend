@@ -4,4 +4,3 @@ CREATE TABLE Order_products (
     product_id bigint REFERENCES Products(id),
     quantity integer
 );
-INSERT INTO Order_products(order_id, product_id, quantity) VALUES (1, 1, 50);

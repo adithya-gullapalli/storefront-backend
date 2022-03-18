@@ -7,24 +7,24 @@ const AXIOS_OPTIONS = {
 }
 
 //For first authorization and is given by db-migrate
-const test_user_start = {
-  id: "1",
-  first_name: "Harry",
-  last_name: "Potter",
-  password: "0602"
-}
 
 let jwt_token: string
 let headers: any
 describe("First Test", () => {
   beforeAll(async function () {
+    const test_user_start : User = {
+      id: 1,
+      first_name: "Harry",
+      last_name: "Potter",
+      password: "0602"
+    }
+    const user_store = new UserStore()
+    const user = await user_store.create(test_user_start); 
+    jwt_token = jwt.sign({ user: user }, process.env.TOKEN_SECRET as string)
     process.env.ENV = "test"
     require("../server.js")
-    const body = { id: test_user_start.id, password: test_user_start.password }
-    const res = await axios.post("/authorize", body, AXIOS_OPTIONS)
-    jwt_token = res.data
     console.log(`jwt_token: ${jwt_token}`)
-    headers = { Authorization: `${jwt_token}` }
+    headers = { Authorization: `Bearer ${jwt_token}` }
   })
 
   describe("Server Checking", () => {
